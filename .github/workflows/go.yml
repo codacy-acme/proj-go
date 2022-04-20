@@ -17,9 +17,21 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
-
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+    
+    - name: Run Codacy Coverage
+      run: |
+            export CODACY_CODE=$GITHUB_WORKSPACE
+            go build \
+            docker run \
+                  --rm=true \
+                  --env CODACY_CODE="$CODACY_CODE" \
+                  --volume /var/run/docker.sock:/var/run/docker.sock \
+                  --volume "$CODACY_CODE":"$CODACY_CODE" \
+                  --volume /tmp:/tmp \
+            codacy-analysis-cli analyze --tool aligncheck \
+                                        --allow-network \
+                                        --upload \
+                                        --verbose
+                                        --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+            go test
+            bash <(curl -Ls https://coverage.codacy.com/get.sh)
