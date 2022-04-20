@@ -21,6 +21,7 @@ jobs:
     - name: Run Codacy Coverage
       run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
+            go build
             docker run \
                   --rm=true \
                   --env CODACY_CODE="$CODACY_CODE" \
