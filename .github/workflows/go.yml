@@ -21,17 +21,18 @@ jobs:
     - name: Run Codacy Coverage
       run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
-            go build \
+            go build 
             docker run \
                   --rm=true \
                   --env CODACY_CODE="$CODACY_CODE" \
                   --volume /var/run/docker.sock:/var/run/docker.sock \
                   --volume "$CODACY_CODE":"$CODACY_CODE" \
-                  --volume /tmp:/tmp \
+                  --volume /tmp:/tmp 
             codacy-analysis-cli analyze --tool aligncheck \
                                         --allow-network \
                                         --upload \
-                                        --verbose
+                                        --verbose \
                                         --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
             go test
-            bash <(curl -Ls https://coverage.codacy.com/get.sh)
+            bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
+              --force-coverage-parser go -r /Users/davidmarinho/dev/proj-go/test.xml
