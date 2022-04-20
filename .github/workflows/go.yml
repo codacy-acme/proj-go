@@ -27,12 +27,12 @@ jobs:
                   --env CODACY_CODE="$CODACY_CODE" \
                   --volume /var/run/docker.sock:/var/run/docker.sock \
                   --volume "$CODACY_CODE":"$CODACY_CODE" \
-                  --volume /tmp:/tmp 
-            codacy-analysis-cli analyze --tool aligncheck \
+                  --volume /tmp:/tmp \
+                  codacy-analysis-cli analyze --tool aligncheck \
                                         --allow-network \
                                         --upload \
                                         --verbose \
                                         --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
             go test
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-              --force-coverage-parser go -r /Users/davidmarinho/dev/proj-go/test.xml
+              --force-coverage-parser go -r /Users/davidmarinho/dev/proj-go/test.xml ${{ secrets.CODACY_PROJECT_TOKEN }}%
