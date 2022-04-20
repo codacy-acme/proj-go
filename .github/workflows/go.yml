@@ -35,4 +35,4 @@ jobs:
                   --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
             go test
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-              --force-coverage-parser go -r Users/davidmarinho/dev/proj-go/test.xml -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
+              --force-coverage-parser go -r /Users/davidmarinho/dev/proj-go/test.xml -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
