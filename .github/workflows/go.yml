@@ -37,7 +37,26 @@ jobs:
     #         go test -coverprofile cover.out
     #         bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
     #           --force-coverage-parser go -r cover.out -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
-    - name: Run Codacy Coverage - deadcode
+    # - name: Run Codacy Coverage - deadcode
+    #   run: |
+    #         export CODACY_CODE=$GITHUB_WORKSPACE
+    #         go build
+    #         docker run \
+    #               --rm=true \
+    #               --env CODACY_CODE="$CODACY_CODE" \
+    #               --volume /var/run/docker.sock:/var/run/docker.sock \
+    #               --volume "$CODACY_CODE":"$CODACY_CODE" \
+    #               --volume /tmp:/tmp \
+    #               codacy/codacy-analysis-cli  \
+    #               analyze --tool deadcode \
+    #               --allow-network \
+    #               --upload \
+    #               --verbose \
+    #               --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+    #         go test -coverprofile cover.out
+    #         bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
+    #           --force-coverage-parser go -r cover.out -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
+    - name: Run Codacy Coverage - gosec
       run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
             go build
