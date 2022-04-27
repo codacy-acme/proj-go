@@ -47,8 +47,8 @@ jobs:
                   --volume /var/run/docker.sock:/var/run/docker.sock \
                   --volume "$CODACY_CODE":"$CODACY_CODE" \
                   --volume /tmp:/tmp \
-                  codacy-analysis-cli analyze \
-                  --tool deadcode \
+                  codacy/codacy-analysis-cli  \
+                  analyze --tool deadcode \
                   --allow-network \
                   --upload \
                   --verbose
