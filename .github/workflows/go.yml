@@ -51,7 +51,7 @@ jobs:
                   analyze --tool deadcode \
                   --allow-network \
                   --upload \
-                  --verbose
+                  --verbose \
                   --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
             go test -coverprofile cover.out
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
