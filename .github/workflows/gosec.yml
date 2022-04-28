@@ -17,7 +17,7 @@ jobs:
         uses: securego/gosec@master
         with:
           args: -fmt json -log log.txt ./... | 
-        run: |
+        uses: |
               java -jar codacy-gosec-0.3.8.jar  | \  
               curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
                 -H "Content-type: application/json" -d @- \
