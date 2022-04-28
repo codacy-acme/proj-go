@@ -14,9 +14,10 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v2
       - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: -fmt json -log log.txt ./... | 
         run: |
-              securego/gosec@master | \ 
-              -fmt json -log log.txt ./... | \
               java -jar codacy-gosec-0.3.8.jar  | \  
               curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
                 -H "Content-type: application/json" -d @- \
