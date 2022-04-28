@@ -56,13 +56,3 @@ jobs:
             go test -coverprofile cover.out
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --force-coverage-parser go -r cover.out -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
-    # - name: Run Codacy Coverage - gosec
-    #   run: |
-    #         gosec -fmt json -log log.txt ./... | \
-    #         ./codacy-gosec-0.3.8 | \  
-    #         curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
-    #           -H "Content-type: application/json" -d @- \
-    #           "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
-    #         curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
-	  #           -H "Content-type: application/json" \
-	  #           "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
