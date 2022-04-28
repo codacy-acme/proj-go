@@ -56,20 +56,7 @@ jobs:
     #         go test -coverprofile cover.out
     #         bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
     #           --force-coverage-parser go -r cover.out -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
-    - name: Run Gosec
-        jobs:
-          tests:
-            runs-on: ubuntu-latest
-            env:
-              GO111MODULE: on
-            steps:
-              - name: Checkout Source
-                uses: actions/checkout@v2
-              - name: Run Gosec Security Scanner
-                uses: securego/gosec@master
-                with:
-                  args: ./...
-              - name: Run Codacy Coverage - gosec
+    - name: Run Codacy Coverage - gosec
                 run: |
                       gosec -fmt json -log log.txt ./... | \
                       java -jar codacy-gosec-0.3.8.jar  | \  
