@@ -58,7 +58,7 @@ jobs:
     #           --force-coverage-parser go -r cover.out -t  ${{ secrets.CODACY_PROJECT_TOKEN }}
     - name: Run Codacy Coverage - gosec
       run: |
-            ~/go/bin/gosec -fmt json -log log.txt ./... | \
+            gosec -fmt json -log log.txt ./... | \
             java -jar codacy-gosec-0.3.8.jar  | \  
             curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
               -H "Content-type: application/json" -d @- \
