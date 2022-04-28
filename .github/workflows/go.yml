@@ -64,5 +64,5 @@ jobs:
               -H "Content-type: application/json" -d @- \
               "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
             curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
-	            -H "Content-type: application/json" \
-	            "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
+              -H "Content-type: application/json" \
+              "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
