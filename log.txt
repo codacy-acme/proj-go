@@ -1,5 +1,5 @@
-[gosec] 2022/04/27 18:18:04 Including rules: default
-[gosec] 2022/04/27 18:18:04 Excluding rules: default
-[gosec] 2022/04/27 18:18:04 Import directory: /Users/davidmarinho/dev/proj-go
-[gosec] 2022/04/27 18:18:04 Checking package: main
-[gosec] 2022/04/27 18:18:04 Checking file: /Users/davidmarinho/dev/proj-go/calculator.go
+[gosec] 2022/04/28 10:34:21 Including rules: default
+[gosec] 2022/04/28 10:34:21 Excluding rules: default
+[gosec] 2022/04/28 10:34:21 Import directory: /Users/davidmarinho/dev/proj-go
+[gosec] 2022/04/28 10:34:21 Checking package: main
+[gosec] 2022/04/28 10:34:21 Checking file: /Users/davidmarinho/dev/proj-go/calculator.go

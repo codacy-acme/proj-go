@@ -1,19 +1,20 @@
 export PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
 #c883239bac4242308e577abf24bcf76e
 export COMMIT=$GITHUB_SHA
+#33f733769a8c358d591500de8ef97f3c010128ca
 
-# 1. Run staticcheck
-gosec -fmt json -log log.txt ./... | \
+# 1. Run gosec
+~/go/bin/gosec -fmt json -log log.txt ./... | \
 
-# 2. Convert the staticcheck output to a format that the Codacy API accepts
-./codacy-gosec-0.3.8 | \
+# 2. Convert the gosec output to a format that the Codacy API accepts
+java -jar codacy-gosec-0.3.8.jar | \
 
 # 3. Send the results to Codacy
-curl -XPOST -L -H "project-token: $PROJECT_TOKEN" \
+curl -XPOST -L -H "project-token: c883239bac4242308e577abf24bcf76e" \
     -H "Content-type: application/json" -d @- \
-    "https://api.codacy.com/2.0/commit/$COMMIT/issuesRemoteResults"
+    "https://api.codacy.com/2.0/commit/33f733769a8c358d591500de8ef97f3c010128ca/issuesRemoteResults"
 
 # 4. Signal that Codacy can use the sent results and start a new analysis
 curl -XPOST -L -H "project-token: $PROJECT_TOKEN" \
 	-H "Content-type: application/json" \
-	"https://api.codacy.com/2.0/commit/$COMMIT/resultsFinal"
+	"https://api.codacy.com/2.0/commit/33f733769a8c358d591500de8ef97f3c010128ca/resultsFinal"
