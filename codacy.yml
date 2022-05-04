@@ -1,7 +1,0 @@
----
-languages:
-  java:
-    extensions:
-      - "-java"
-exclude_paths:
-  - "**/*.java"
