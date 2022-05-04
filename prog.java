@@ -12,4 +12,5 @@ public class prog
     public int hashcode() {
         return 42; // any arbitrary constant will do
     }
+    
 }
