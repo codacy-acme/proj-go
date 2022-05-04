@@ -4,4 +4,4 @@ languages:
     extensions:
       - "-java"
 exclude_paths:
-  - "**/*.java"
+  - "*.java"
