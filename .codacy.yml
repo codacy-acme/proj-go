@@ -1,6 +1,6 @@
 ---
 languages:
   java: 
-    - "**.java"
+    - "test_java/*.java"
 # exclude_paths:
 #    - "test_java/*.java"
