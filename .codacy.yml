@@ -1,8 +1,3 @@
 ---
-languages:
-  java:
-    extensions:
-      - ".java"
-# exclude_paths:
-#   - "*.java"
-#   - ""
+exclude_paths:
+   - "test_java/*.java"
