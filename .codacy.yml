@@ -2,6 +2,7 @@
 languages:
   java:
     extensions:
-      - "-java"
-exclude_paths:
-  - "*.java"
+      - "*.java"
+# exclude_paths:
+#   - "*.java"
+#   - ""
