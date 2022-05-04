@@ -1,3 +1,5 @@
 ---
 languages:
-  java
+  java:
+    extensions:
+      - "-java"
