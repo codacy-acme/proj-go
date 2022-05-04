@@ -1,3 +1,5 @@
+package test_java;
+
 public class prog 
 {
     public static void main( String[] args )
