@@ -2,7 +2,7 @@
 languages:
     java:
         extensions:
-        - "java.xpto"
+        - "-java.xpto"
 # exclude_paths:
 #     - "**/*.java"
 #     - "*.java"
