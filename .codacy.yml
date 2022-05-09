@@ -1,8 +1,0 @@
----
-languages:
-    java:
-        extensions:
-            - "-java.xpto"
-# exclude_paths:
-#     - "**/*.java"
-#     - "*.java"
