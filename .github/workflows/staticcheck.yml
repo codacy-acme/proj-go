@@ -10,17 +10,22 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
     steps:
     - uses: actions/checkout@v3
 
     - name: run staticcheck
       uses: dominikh/staticcheck-action@v1.1.0
       with:
-        version: 2021.1.1
+        version: "2021.1.1"
+        install-go: false
+        output-format: binary
+        output-file: "./staticcheck.bin"
 
     - name: send results to codacy
       run: | 
-            $(go env GOPATH)/bin/staticcheck -f json ./...  | \ 
+           ${{output-file}} -f json ./...  | \ 
             java -jar codacy-staticcheck-3.0.5.jar  | \  
             curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
                 -H "Content-type: application/json" -d @- \
