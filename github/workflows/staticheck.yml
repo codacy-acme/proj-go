@@ -1,4 +1,4 @@
-name: Run Gosec
+name: Run staticheck
 on:
   push:
     branches: [ proj-go ]
