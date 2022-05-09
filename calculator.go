@@ -23,11 +23,3 @@ func credential() {
 func subNum(num1 int, num2 int) int {
 	return num2-num1;
 }
-
-//to test the client-side tool aligncheck
-func subNum()  {
-	config := new(Config) // not nil
-	if config == nil {
-		// then
-	}
-}
