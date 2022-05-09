@@ -1,0 +1,25 @@
+name: Run Gosec
+on:
+  push:
+    branches: [ proj-go ]
+  pull_request:
+    branches: [ proj-go ]
+    
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Run staticcheck
+        run: | 
+              staticcheck -f json ./...  | \ 
+              java -jar codacy-staticcheck-3.0.5.jar  | \  
+              curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" -d @- \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
+              curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
