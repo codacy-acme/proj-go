@@ -20,7 +20,7 @@ jobs:
 
     - name: send results to codacy
       run: | 
-            staticcheck -f json ./...  | \ 
+            $(go env GOPATH)/bin/staticcheck -f json ./...  | \ 
             java -jar codacy-staticcheck-3.0.5.jar  | \  
             curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
                 -H "Content-type: application/json" -d @- \
