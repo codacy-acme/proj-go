@@ -6,52 +6,54 @@ on:
   pull_request:
     branches: [ proj-go ]
 
-build:
-  inputs:
-    upload:
-      required: true
-    run-staticcheck:
-      required: true
-    runs:
-      using: "composite"
-      steps:
-        - name: "Run StaticCheck"
-          shell: bash
-          run: |
-              set -eux
-              if [ "${{ inputs.run-staticcheck }}" == "true" ]; then
-                cd /tmp
-                curl -fsSL https://api.github.com/repos/dominikh/go-tools/releases/latest \
-                  | grep -E "browser_download_url.*staticcheck_linux_amd64.tar.gz\"$" \
-                  | cut -d '"' -f 4 \
-                  | xargs -L 1 curl -fsSL -o /tmp/staticcheck_linux_amd64.tar.gz
-                tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck
-                chmod +x ./staticcheck/staticcheck
-                curl -fsSL https://api.github.com/repos/codacy/codacy-staticcheck/releases/latest \
-                  | grep "browser_download_url" | grep -v "browser_download_url.*jar" \
-                  | cut -d '"' -f 4 \
-                  | xargs -L 1 curl -fsSL -o /tmp/bin/codacy-staticcheck
-                chmod +x ./bin/codacy-staticcheck
-                cd -
-                find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS' _ {} \; > staticcheck-out.json
-                /tmp/bin/codacy-staticcheck < staticcheck-out.json > codacy-out.json
-                if [ ${{ inputs.upload }} = true ]; then
-                  curl -XPOST -L -H "$PROJECT_TOKEN" \
-                    -H "Content-type: application/json" --data-binary @codacy-out.json \
-                    https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults
-                else
-                  cat codacy-out.json
-                fi
-              else
-                echo "Skipping StaticCheck"
-              fi
-        - name: "Let Codacy know it can start processing the analysis results"
-          shell: bash
-          run: |
-              if [ ${{ inputs.upload }} = true ]; then
-                curl -XPOST -L -H "$PROJECT_TOKEN" \
-                  -H "Content-type: application/json" \
-                  "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
-              else
-                echo "Skipping results upload"
-              fi
+jobs:
+  codacy-analysis-cli:
+  build:
+      inputs:
+        upload:
+          required: true
+        run-staticcheck:
+          required: true
+        runs:
+          using: "composite"
+          steps:
+            - name: "Run StaticCheck"
+              shell: bash
+              run: |
+                  set -eux
+                  if [ "${{ inputs.run-staticcheck }}" == "true" ]; then
+                    cd /tmp
+                    curl -fsSL https://api.github.com/repos/dominikh/go-tools/releases/latest \
+                      | grep -E "browser_download_url.*staticcheck_linux_amd64.tar.gz\"$" \
+                      | cut -d '"' -f 4 \
+                      | xargs -L 1 curl -fsSL -o /tmp/staticcheck_linux_amd64.tar.gz
+                    tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck
+                    chmod +x ./staticcheck/staticcheck
+                    curl -fsSL https://api.github.com/repos/codacy/codacy-staticcheck/releases/latest \
+                      | grep "browser_download_url" | grep -v "browser_download_url.*jar" \
+                      | cut -d '"' -f 4 \
+                      | xargs -L 1 curl -fsSL -o /tmp/bin/codacy-staticcheck
+                    chmod +x ./bin/codacy-staticcheck
+                    cd -
+                    find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS' _ {} \; > staticcheck-out.json
+                    /tmp/bin/codacy-staticcheck < staticcheck-out.json > codacy-out.json
+                    if [ ${{ inputs.upload }} = true ]; then
+                      curl -XPOST -L -H "$PROJECT_TOKEN" \
+                        -H "Content-type: application/json" --data-binary @codacy-out.json \
+                        https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults
+                    else
+                      cat codacy-out.json
+                    fi
+                  else
+                    echo "Skipping StaticCheck"
+                  fi
+            - name: "Let Codacy know it can start processing the analysis results"
+              shell: bash
+              run: |
+                  if [ ${{ inputs.upload }} = true ]; then
+                    curl -XPOST -L -H "$PROJECT_TOKEN" \
+                      -H "Content-type: application/json" \
+                      "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
+                  else
+                    echo "Skipping results upload"
+                  fi
