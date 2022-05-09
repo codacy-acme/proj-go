@@ -21,6 +21,7 @@ jobs:
         install-go: false
         cache-key: ${{ matrix.go }}
         working-directory: ${{ matrix.dir }}
+        args: json -log log.txt ./...
     - name: send results to codacy
       run: | 
             java -jar codacy-staticcheck-3.0.5.jar  | \  
