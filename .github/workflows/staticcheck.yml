@@ -14,7 +14,7 @@ jobs:
       - name: run StaticCheck
         uses: codacy/codacy-analysis-cli-action@master
         with:
-          tool: Staticcheck
+          #tool: Staticcheck
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
           max-allowed-issues: 2147483647
