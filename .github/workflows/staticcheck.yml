@@ -1,18 +1,68 @@
-name: Go
-
-on:
-  push:
-    branches: [ proj-go ]
-  pull_request:
-    branches: [ proj-go ]
-
-jobs:
-
-  build:
-    runs-on: ubuntu-latest
-    env:
-      GO111MODULE: on
-    steps:
+name: "Codacy Analysis CLI"
+author: "Codacy"
+description: "Execute Codacy code analysis using your remote Codacy configuration"
+branding:
+  icon: "check"
+  color: "gray-dark"
+inputs:
+  verbose:
+    required: false
+    description: "Run with verbose output"
+  project-token:
+    required: false
+    description: "API project token to retrieve your remote Codacy configuration for the project being analyzed"
+  api-token:
+    required: false
+    description: "API account token to retrieve your remote Codacy configuration for the project being analyzed"
+  codacy-api-base-url:
+    required: false
+    description: "Codacy's API URL, to retrieve your remote Codacy configuration"
+  format:
+    required: false
+    description: "Format of the output file"
+  output:
+    required: false
+    description: "Send analysis results to an output file"
+  directory:
+    required: false
+    description: "The directory to be analyzed"
+  parallel:
+    required: false
+    description: "Number of tools to run in parallel"
+  max-allowed-issues:
+    required: false
+    default: "2147483647"
+    description: "Maximum number of issues allowed for the analysis to succeed"
+  tool:
+    required: false
+    description: "The name of the tool to analyze the code"
+  tool-timeout:
+    required: false
+    description: "Maximum time each tool has to execute"
+  upload:
+    required: false
+    description: "Upload analysis results to Codacy"
+  fail-if-incomplete:
+    required: false
+    description: "Fail the analysis if any tool fails to run"
+  allow-network:
+    required: false
+    description: "Allow network access for tools"
+  force-file-permissions:
+    required: false
+    description: "Force files to be readable by changing the permissions before running the analysis"
+  gh-code-scanning-compat:
+    required: false
+    description: >-
+      Reduce issue severity by one level, for non-security issues, for compatibility with GitHub's code scanning feature.
+      This option will only have an effect when used in conjunction with '--format sarif'.
+  run-staticcheck:
+    required: true
+    description: >-
+      Run StaticCheck. Possible values (true|false)
+runs:
+  using: "composite"
+  steps:
     - name: "Run StaticCheck"
       shell: bash
       run: |
@@ -34,12 +84,22 @@ jobs:
           find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS' _ {} \; > staticcheck-out.json
           /tmp/bin/codacy-staticcheck < staticcheck-out.json > codacy-out.json
           if [ ${{ inputs.upload }} = true ]; then
-            curl -XPOST -L -H "$CURL_CODACY_AUTH_AUTHENTICATION" \
+            curl -XPOST -L -H "$PROJECT_TOKEN" \
               -H "Content-type: application/json" --data-binary @codacy-out.json \
-              "${CODACY_BASE_URL_OR_DEFAULT}/2.0/$ORGANIZATION_PROVIDER/$OWNER_NAME/$REPOSITORY_NAME/commit/$GITHUB_SHA/issuesRemoteResults"
+              https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults
           else
             cat codacy-out.json
           fi
         else
           echo "Skipping StaticCheck"
+        fi
+    - name: "Let Codacy know it can start processing the analysis results"
+      shell: bash
+      run: |
+        if [ ${{ inputs.upload }} = true ]; then
+          curl -XPOST -L -H "$PROJECT_TOKEN" \
+            -H "Content-type: application/json" \
+            "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
+        else
+          echo "Skipping results upload"
         fi
