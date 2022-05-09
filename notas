@@ -1,7 +1,0 @@
-Settings --> Ignored files -> se tiver ficheiro configuracao para ignorar files, aparece indicação
-
-issues que apareceram antes de ignorar os ficheiros, continuarão. A menos que se ignorem os issues. Voltando a fazer enable dos patterns e correndo novamente o commit, voltarão
-
-porque o ficheiro conf nao funciona?
-
--> depois de fazer disabled dos issues, deixou de haver novos issues na tab commit.
