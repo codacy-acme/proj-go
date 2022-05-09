@@ -14,22 +14,11 @@ jobs:
       GO111MODULE: on
     steps:
     - uses: actions/checkout@v3
-
-    - name: run staticcheck
-      uses: dominikh/staticcheck-action@v1.1.0
+    - run: "go test ./..."
+    - run: "go vet ./..."
+    - uses: dominikh/staticcheck-action@v1.2.0
       with:
-        version: "2021.1.1"
+        version: "2022.1"
         install-go: false
-        output-format: binary
-        output-file: "./staticcheck.bin"
-
-    - name: send results to codacy
-      run: | 
-           ./staticcheck.bin -f json ./...  | \ 
-            java -jar codacy-staticcheck-3.0.5.jar  | \  
-            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
-                -H "Content-type: application/json" -d @- \
-                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
-            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
-                -H "Content-type: application/json" \
-                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
+        cache-key: ${{ matrix.go }}
+        working-directory: ${{ matrix.dir }}
