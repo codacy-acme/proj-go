@@ -10,7 +10,7 @@ func main(){
 	//credential()
 	//sleep()
 	var guess *int
-	a := 12345
+	a := 0
 	guess = &a
 	fn(guess)
 }
