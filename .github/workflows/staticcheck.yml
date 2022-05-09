@@ -13,14 +13,14 @@ jobs:
             - name: "Run StaticCheck"
               shell: bash
               run: |
-                  set -eux
+                  set -eux 
                   cd /tmp
                   curl -fsSL https://api.github.com/repos/dominikh/go-tools/releases/latest \
                       | grep -E "browser_download_url.*staticcheck_linux_amd64.tar.gz\"$" \
                       | cut -d '"' -f 4 \
                       | xargs -L 1 curl -fsSL -o /tmp/staticcheck_linux_amd64.tar.gz
-                  tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck
-                  chmod +x ./staticcheck/staticcheck
+                  tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck | \
+                  chmod +x ./staticcheck/staticcheck | \
                   curl -fsSL https://api.github.com/repos/codacy/codacy-staticcheck/releases/latest \
                       | grep "browser_download_url" | grep -v "browser_download_url.*jar" \
                       | cut -d '"' -f 4 \
