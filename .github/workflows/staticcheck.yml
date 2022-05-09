@@ -14,7 +14,6 @@ jobs:
       GO111MODULE: on
     steps:
     - uses: actions/checkout@v3
-    - run: "go test ./..."
     - run: "go vet ./..."
     - uses: dominikh/staticcheck-action@v1.2.0
       with:
@@ -24,7 +23,7 @@ jobs:
         working-directory: ${{ matrix.dir }}
     - name: send results to codacy
       run: | 
-           $(go env GOPATH)/bin/staticcheck -f json ./...  | \ 
+           ~/bin/staticcheck -f json ./...  | \ 
             java -jar codacy-staticcheck-3.0.5.jar  | \  
             curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
                 -H "Content-type: application/json" -d @- \
