@@ -1,0 +1,106 @@
+[
+    {
+        "tool": "staticcheck",
+        "issues": {
+            "Success": {
+                "results": [
+                    {
+                        "filename": "calculator.go",
+                        "results": [
+                            {
+                                "Issue": {
+                                    "patternId": {
+                                        "value": "Staticcheck_SA1004"
+                                    },
+                                    "filename": "calculator.go",
+                                    "message": {
+                                        "text": "sleeping for 8 nanoseconds is probably a bug; be explicit if it isn't"
+                                    },
+                                    "level": "Error",
+                                    "category": "CodeStyle",
+                                    "location": {
+                                        "LineLocation": {
+                                            "line": 36
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Issue": {
+                                    "patternId": {
+                                        "value": "Staticcheck_U1000"
+                                    },
+                                    "filename": "calculator.go",
+                                    "message": {
+                                        "text": "func fn is unused"
+                                    },
+                                    "level": "Error",
+                                    "category": "CodeStyle",
+                                    "location": {
+                                        "LineLocation": {
+                                            "line": 40
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Issue": {
+                                    "patternId": {
+                                        "value": "Staticcheck_SA5011"
+                                    },
+                                    "filename": "calculator.go",
+                                    "message": {
+                                        "text": "possible nil pointer dereference"
+                                    },
+                                    "level": "Error",
+                                    "category": "CodeStyle",
+                                    "location": {
+                                        "LineLocation": {
+                                            "line": 41
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Issue": {
+                                    "patternId": {
+                                        "value": "Staticcheck_U1000"
+                                    },
+                                    "filename": "calculator.go",
+                                    "message": {
+                                        "text": "func credential is unused"
+                                    },
+                                    "level": "Error",
+                                    "category": "CodeStyle",
+                                    "location": {
+                                        "LineLocation": {
+                                            "line": 23
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Issue": {
+                                    "patternId": {
+                                        "value": "Staticcheck_U1000"
+                                    },
+                                    "filename": "calculator.go",
+                                    "message": {
+                                        "text": "func sleep is unused"
+                                    },
+                                    "level": "Error",
+                                    "category": "CodeStyle",
+                                    "location": {
+                                        "LineLocation": {
+                                            "line": 35
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]
