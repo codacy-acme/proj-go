@@ -22,7 +22,6 @@ jobs:
         install-go: false
         cache-key: ${{ matrix.go }}
         working-directory: ${{ matrix.dir }}
-		
     - name: send results to codacy
       run: | 
            $(go env GOPATH)/bin/staticcheck -f json ./...  | \ 
