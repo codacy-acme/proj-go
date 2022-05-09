@@ -1,6 +1,10 @@
 name: StaticCheck
 
-on: ["proj-go"]
+on:
+  push:
+    branches: [ proj-go ]
+  pull_request:
+    branches: [ proj-go ]
 
 jobs:
   codacy-analysis-cli:
