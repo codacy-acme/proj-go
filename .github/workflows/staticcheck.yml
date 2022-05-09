@@ -1,0 +1,30 @@
+name: Go
+
+on:
+  push:
+    branches: [ proj-go ]
+  pull_request:
+    branches: [ proj-go ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+
+    - name: Run staticcheck
+      run: | 
+            staticcheck -f json ./...  | \ 
+            java -jar codacy-staticcheck-3.0.5.jar  | \  
+            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" -d @- \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
+            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
