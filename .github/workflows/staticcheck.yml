@@ -22,3 +22,14 @@ jobs:
         install-go: false
         cache-key: ${{ matrix.go }}
         working-directory: ${{ matrix.dir }}
+		
+    - name: send results to codacy
+      run: | 
+           $(go env GOPATH)/bin/staticcheck -f json ./...  | \ 
+            java -jar codacy-staticcheck-3.0.5.jar  | \  
+            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" -d @- \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/issuesRemoteResults"
+            curl -XPOST -L -H "project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}" \
+                -H "Content-type: application/json" \
+                "https://api.codacy.com/2.0/commit/$GITHUB_SHA/resultsFinal"
