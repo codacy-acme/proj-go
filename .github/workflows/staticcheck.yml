@@ -36,3 +36,7 @@ jobs:
               chmod +x /tmp/codacy-staticcheck
               find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); cp $1 $1.codacy.bak; PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS; mv $1.codacy.bak $1' _ {} \; > /tmp/staticcheck-out.json
               /tmp/codacy-staticcheck < /tmp/staticcheck-out.json > /tmp/codacy-out.json
+      - name: cat staticcheck-out.json
+        run: cat /tmp/staticcheck-out.json      
+      - name: cat codacy-out.json
+        run: cat /tmp/codacy-out.json
