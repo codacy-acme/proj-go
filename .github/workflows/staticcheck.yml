@@ -21,9 +21,19 @@ jobs:
           upload: true
           max-allowed-issues: 2147483647
           run-staticcheck: "true"
-      - name: cat staticcheck-out file  
-        run: cat /tmp/staticcheck-out.json
-      - name: cat staticcheck-out file  
-        run: cat /tmp/codacy-out.json
-      - name: cat file sarif
-        run: cat results.sarif
+      - name: staticheck - cli
+        run: |
+              curl -fsSL https://api.github.com/repos/dominikh/go-tools/releases/latest \
+                | grep -E "browser_download_url.*staticcheck_linux_amd64.tar.gz\"$" \
+                | cut -d '"' -f 4 \
+                | xargs -L 1 curl -fsSL -o /tmp/staticcheck_linux_amd64.tar.gz
+              tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck
+              chmod +x ./staticcheck/staticcheck
+              curl -fsSL https://api.github.com/repos/codacy/codacy-staticcheck/releases/latest \
+                | grep "browser_download_url" | grep -v "browser_download_url.*jar" \
+                | cut -d '"' -f 4 \
+                | xargs -L 1 curl -fsSL -o /tmp/codacy-staticcheck
+              chmod +x /tmp/codacy-staticcheck
+              cd -
+              find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); cp $1 $1.codacy.bak; PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS; mv $1.codacy.bak $1' _ {} \; > /tmp/staticcheck-out.json
+              /tmp/codacy-staticcheck < /tmp/staticcheck-out.json > /tmp/codacy-out.json
