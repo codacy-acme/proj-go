@@ -34,6 +34,5 @@ jobs:
                 | cut -d '"' -f 4 \
                 | xargs -L 1 curl -fsSL -o /tmp/codacy-staticcheck
               chmod +x /tmp/codacy-staticcheck
-              cd -
               find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); cp $1 $1.codacy.bak; PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS; mv $1.codacy.bak $1' _ {} \; > /tmp/staticcheck-out.json
               /tmp/codacy-staticcheck < /tmp/staticcheck-out.json > /tmp/codacy-out.json
