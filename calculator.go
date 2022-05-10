@@ -42,7 +42,7 @@ func fn(x *int) {
     fmt.Println(*x)
 
     // This nil check is equally important for the previous dereference
-    if x == nil {
+    if x != nil {
         fmt.Println("ERROR")
     }
 }
