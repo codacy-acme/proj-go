@@ -21,6 +21,7 @@ jobs:
         uses: codacy/codacy-analysis-cli-action@master
         with:
           run-staticcheck: "true"
+          run-gosec: "true"
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
       # - name: staticheck - cli
