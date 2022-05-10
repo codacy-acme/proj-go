@@ -2,7 +2,7 @@ name: StaticCheck
 
 on:
   push:
-    branches: [ proj-go ]
+    branches: [ '*' ]
   pull_request:
     branches: [ proj-go ]
 
@@ -11,6 +11,12 @@ jobs:
     name: start
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: set-up go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18.1
       - name: staticheck - cli
         run: |
           set -eux
@@ -29,11 +35,7 @@ jobs:
           cd -
           echo ========= START TEST =========
           echo $GITHUB_WORKSPACE
-          ls -lah $GITHUB_WORKSPACE
-          /usr/bin/find . -type f -name go.mod > teste.o
-          echo $?
-          cat teste.o
-          /usr/bin/find . -type f -name go.mod -exec bash -c 'echo $PWD' _ {} \;
+          whereis go
           /usr/bin/find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); cp $1 $1.codacy.bak; PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS; mv $1.codacy.bak $1' _ {} \; > /tmp/staticcheck-out.json
           echo ========= END TEST ======
           cat /tmp/staticcheck-out.json | echo
