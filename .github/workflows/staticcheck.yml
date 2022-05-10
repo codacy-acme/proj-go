@@ -18,8 +18,10 @@ jobs:
           format: sarif
           gh-code-scanning-compat: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          upload: true
+          upload: false
           max-allowed-issues: 2147483647
           run-staticcheck: "true"
+      - name: cat json file
+        run: cat /tmp/codacy-out.json
       - name: cat file sarif
         run: cat results.sarif
