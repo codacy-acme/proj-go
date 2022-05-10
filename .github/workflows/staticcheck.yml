@@ -21,6 +21,9 @@ jobs:
           upload: true
           max-allowed-issues: 2147483647
           run-staticcheck: "true"
+      - name: cat staticcheck-out file  
         run: cat /tmp/staticcheck-out.json
+      - name: cat staticcheck-out file  
+        run: cat /tmp/codacy-out.json
       - name: cat file sarif
         run: cat results.sarif
