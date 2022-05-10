@@ -10,6 +10,7 @@ func main(){
 	fmt.Printf("Sum: %d\n",sumNum(2,3))
 	credential()
 	sleep()
+	fn(nil)
 	var e *MyError
 	check(e)
 	check(nil)
