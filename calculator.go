@@ -3,16 +3,12 @@ package main
 import (
 	"fmt"
 	"time"
-	"reflect"
 )
 
 func main(){
 	fmt.Printf("Sum: %d\n",sumNum(2,3))
-	//credential()
-	//sleep()
-	var e *MyError
-	check(e)
-	check(nil)
+	credential()
+	sleep()
 }
 
 func sumNum(num1 int, num2 int) int {
@@ -44,16 +40,4 @@ func fn(x *int) {
     if x == nil {
         fmt.Println("ERROR")
     }
-}
-
-type MyError struct {
-	Err error
-}
-
-func (me MyError) Error() string {
-	return me.Err.Error()
-}
-
-func check(err error) {
-	fmt.Printf("type: %v value: %v\n", reflect.TypeOf(err), reflect.ValueOf(err))
 }
