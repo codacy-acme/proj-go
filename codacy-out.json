@@ -1,0 +1,3 @@
+calculator.go:37:16: sleeping for 8 nanoseconds is probably a bug; be explicit if it isn't (SA1004)
+calculator.go:42:17: possible nil pointer dereference (SA5011)
+	calculator.go:45:8: this check suggests that the pointer can be nil
