@@ -22,6 +22,8 @@ jobs:
         with:
           run-staticcheck: "true"
           run-gosec: "true"
+          run-deadcode: "true"
+          run-aligncheck: "true"
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
       # - name: staticheck - cli
