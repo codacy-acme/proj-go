@@ -40,7 +40,8 @@ jobs:
                   --allow-network \
                   --upload \
                   --verbose \
-                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }} \
+                  --max-allowed-issues 2
       - name: Run Aligncheck
         run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
