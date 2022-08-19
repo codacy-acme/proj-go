@@ -83,5 +83,3 @@ jobs:
       #     du -sh /tmp/staticcheck-out.json
       #     /tmp/codacy-staticcheck < /tmp/staticcheck-out.json > /tmp/codacy-out.json
       #     cat /tmp/codacy-out.json
-          
-         
