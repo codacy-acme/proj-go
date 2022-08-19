@@ -1,4 +1,4 @@
-name: StaticCheck
+name: cli-action
 
 on:
   push:
