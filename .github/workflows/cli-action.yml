@@ -24,7 +24,6 @@ jobs:
           run-gosec: "true"
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-            - name: Run staticcheck and gosec
       - name: Run Deadcode
         uses: codacy/codacy-analysis-cli-action@master
         with:
