@@ -22,10 +22,30 @@ jobs:
         with:
           run-staticcheck: "true"
           run-gosec: "true"
-          run-deadcode: "true"
-          run-aligncheck: "true"
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      - name: Run Aligncheck and DeadCode
+        run: |
+            export CODACY_CODE=$GITHUB_WORKSPACE
+            go build
+            docker run \
+                  --rm=true \
+                  --env CODACY_CODE="$CODACY_CODE" \
+                  --volume /var/run/docker.sock:/var/run/docker.sock \
+                  --volume "$CODACY_CODE":"$CODACY_CODE" \
+                  --volume /tmp:/tmp \
+                  codacy/codacy-analysis-cli \
+                    analyze --tool aligncheck \
+                  --allow-network \
+                  --upload \
+                  --verbose \
+                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+                  codacy/codacy-analysis-cli \
+                    analyze --tool deadcode \
+                  --allow-network \
+                  --upload \
+                  --verbose \
+                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
       # - name: staticheck - cli
       #   run: |
       #     set -eux
