@@ -17,15 +17,22 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.17.13
-      - name: Run Codacy Analysis CLI
+      - name: Run Staticcheck and Gosec
         uses: codacy/codacy-analysis-cli-action@master
         with:
-          tool: deadcode
           run-staticcheck: "true"
           run-gosec: "true"
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      - name: Run Aligncheck and DeadCode
+            - name: Run staticcheck and gosec
+      - name: Run Deadcode
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          tool: deadcode
+          upload: true
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+            - name: Run staticcheck and gosec
+      - name: Run Aligncheck
         run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
             go build
