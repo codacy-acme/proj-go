@@ -30,7 +30,6 @@ jobs:
           tool: deadcode
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-            - name: Run staticcheck and gosec
       - name: Run Aligncheck
         run: |
             export CODACY_CODE=$GITHUB_WORKSPACE
