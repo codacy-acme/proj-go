@@ -16,7 +16,7 @@ jobs:
       - name: set-up go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.13.15
+          go-version: 1.18.6
       - name: Run Staticcheck and Gosec
         uses: codacy/codacy-analysis-cli-action@master
         with:
