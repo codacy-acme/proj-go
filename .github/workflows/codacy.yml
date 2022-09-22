@@ -26,6 +26,7 @@ permissions:
 jobs:
   codacy-security-scan:
     permissions:
+      actions: read
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     name: Codacy Security Scan
@@ -39,7 +40,8 @@ jobs:
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
         with:
-          run-gosec: "true"
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          verbose: true
           output: results.sarif
           format: sarif
           # Adjust severity of non-security issues
