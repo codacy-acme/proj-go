@@ -41,6 +41,7 @@ jobs:
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          tool: Revive
           verbose: true
           output: results.sarif
           format: sarif
