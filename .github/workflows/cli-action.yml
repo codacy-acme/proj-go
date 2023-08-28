@@ -39,7 +39,7 @@ jobs:
           run-gosec: "true"
           upload: true
           run-docker-tools: "false"
-            - name: Run Staticcheck and Gosec
+      - name: Run Staticcheck and Gosec
         uses: codacy/codacy-analysis-cli-action@master
         with:
           run-staticcheck: "true"
