@@ -25,61 +25,57 @@ jobs:
           upload: true
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           run-docker-tools: "false"
-      - name: Run Deadcode
-        run: |
-            export CODACY_CODE=$GITHUB_WORKSPACE
-            go build
-            echo "$CODACY_CODE"
-            docker run \
-                  --rm=true \
-                  --env CODACY_CODE="$CODACY_CODE" \
-                  --volume /var/run/docker.sock:/var/run/docker.sock \
-                  --volume "$CODACY_CODE":"$CODACY_CODE" \
-                  --volume /tmp:/tmp \
-                  codacy/codacy-analysis-cli \
-                    analyze --tool deadcode \
-                  --allow-network \
-                  --upload \
-                  --verbose \
-                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }} \
-                  --max-allowed-issues 2
-      - name: Run Aligncheck
-        run: |
-            export CODACY_CODE=$GITHUB_WORKSPACE
-            go build
-            docker run \
-                  --rm=true \
-                  --env CODACY_CODE="$CODACY_CODE" \
-                  --volume /var/run/docker.sock:/var/run/docker.sock \
-                  --volume "$CODACY_CODE":"$CODACY_CODE" \
-                  codacy/codacy-analysis-cli \
-                    analyze --tool aligncheck \
-                  --allow-network \
-                  --upload \
-                  --verbose \
-                  --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
-      # - name: staticheck - cli
+      - name: Run Staticcheck and Gosec
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          run-staticcheck: "true"
+          run-gosec: "true"
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          run-docker-tools: "false"
+      - name: Run Staticcheck and Gosec
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          run-staticcheck: "true"
+          run-gosec: "true"
+          upload: true
+          run-docker-tools: "false"
+            - name: Run Staticcheck and Gosec
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          run-staticcheck: "true"
+          run-gosec: "true"
+          upload: true
+          api-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          run-docker-tools: "false"
+      # - name: Run Deadcode
       #   run: |
-      #     set -eux
-      #     cd /tmp
-      #     curl -fsSL https://api.github.com/repos/dominikh/go-tools/releases/latest \
-      #       | grep -E "browser_download_url.*staticcheck_linux_amd64.tar.gz\"$" \
-      #       | cut -d '"' -f 4 \
-      #       | xargs -L 1 curl -fsSL -o /tmp/staticcheck_linux_amd64.tar.gz
-      #     tar -xvf /tmp/staticcheck_linux_amd64.tar.gz staticcheck/staticcheck
-      #     chmod +x ./staticcheck/staticcheck
-      #     curl -fsSL https://api.github.com/repos/codacy/codacy-staticcheck/releases/latest \
-      #       | grep "browser_download_url" | grep -v "browser_download_url.*jar" \
-      #       | cut -d '"' -f 4 \
-      #       | xargs -L 1 curl -fsSL -o /tmp/codacy-staticcheck
-      #     chmod +x /tmp/codacy-staticcheck
-      #     cd -
-      #     echo ========= START TEST =========
-      #     echo $GITHUB_WORKSPACE
-      #     whereis go
-      #     /usr/bin/find . -type f -name go.mod -exec bash -c 'cd $(dirname $1); cp $1 $1.codacy.bak; PKGS=$(go list ./...); /tmp/staticcheck/staticcheck -f json $PKGS; mv $1.codacy.bak $1' _ {} \; > /tmp/staticcheck-out.json
-      #     echo ========= END TEST ======
-      #     cat /tmp/staticcheck-out.json | echo
-      #     du -sh /tmp/staticcheck-out.json
-      #     /tmp/codacy-staticcheck < /tmp/staticcheck-out.json > /tmp/codacy-out.json
-      #     cat /tmp/codacy-out.json
+      #       export CODACY_CODE=$GITHUB_WORKSPACE
+      #       go build
+      #       echo "$CODACY_CODE"
+      #       docker run \
+      #             --rm=true \
+      #             --env CODACY_CODE="$CODACY_CODE" \
+      #             --volume /var/run/docker.sock:/var/run/docker.sock \
+      #             --volume "$CODACY_CODE":"$CODACY_CODE" \
+      #             --volume /tmp:/tmp \
+      #             codacy/codacy-analysis-cli \
+      #               analyze --tool deadcode \
+      #             --allow-network \
+      #             --upload \
+      #             --verbose \
+      #             --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+      # - name: Run Aligncheck
+      #   run: |
+      #       export CODACY_CODE=$GITHUB_WORKSPACE
+      #       go build
+      #       docker run \
+      #             --rm=true \
+      #             --env CODACY_CODE="$CODACY_CODE" \
+      #             --volume /var/run/docker.sock:/var/run/docker.sock \
+      #             --volume "$CODACY_CODE":"$CODACY_CODE" \
+      #             codacy/codacy-analysis-cli \
+      #               analyze --tool aligncheck \
+      #             --allow-network \
+      #             --upload \
+      #             --verbose \
+      #             --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
