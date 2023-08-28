@@ -38,13 +38,6 @@ jobs:
           run-staticcheck: "true"
           run-gosec: "true"
           upload: true
-          run-docker-tools: "false"
-      - name: Run Staticcheck and Gosec
-        uses: codacy/codacy-analysis-cli-action@master
-        with:
-          run-staticcheck: "true"
-          run-gosec: "true"
-          upload: true
           api-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           run-docker-tools: "false"
       # - name: Run Deadcode
